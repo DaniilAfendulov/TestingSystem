@@ -1,7 +1,9 @@
-﻿namespace TestingSystem.Logic
-{
-    public class TestsBase 
-    {
+﻿using System;
 
+namespace TestingSystem.Logic
+{
+    [Serializable]
+    public class TestsBase : ListDataBase<Test>
+    {
     }
 }

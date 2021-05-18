@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace TestingSystem.Logic
 {
+    [Serializable]
     public class Test
     {
         private string _name;
         private Author _author;
         private List<Question> _questions;
-
+        public string Name { get => _name; set => _name = value; }
+        public Author Author { get => _author; set => _author = value; }
+        public List<Question> Questions { get => _questions; set => _questions = value; }
         public Test(string name, Author author, Question[] questions)
         {
             _name = name;
@@ -29,7 +32,7 @@ namespace TestingSystem.Logic
         {
             if (!string.IsNullOrWhiteSpace(newName))
             {
-                _name = newName;
+                Name = newName;
                 return true;
             }
             return false;
@@ -64,6 +67,21 @@ namespace TestingSystem.Logic
                 return true;
             }
             return false;
+        }
+
+        public int CompleteTest(List<List<Answer>> answers)
+        {
+            int result = 0;
+            for (int i = 0; i < _questions.Count; i++)
+            {
+                result += _questions[i].GiveAnAnswer(answers[i].ToArray());
+            }
+            return result;
+        }
+        public bool Equals(Test test)
+        {
+            return _name == test._name
+                && _author.GetName() == test._author.GetName();
         }
     }
 }

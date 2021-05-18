@@ -3,28 +3,32 @@ using System.Collections.Generic;
 
 namespace TestingSystem.Logic
 {
-    public class UsersScoreBase
+    [Serializable]
+    public class UsersScoreBase: ListDataBase<SolversScore>
     {
-        private List<UsersScore> _allUsersScores;
-        public UsersScoreBase()
+        public SolversScore[] FindUsersScores(Solver solver)
         {
-            _allUsersScores = new List<UsersScore>();
-        }
-        public UsersScoreBase(UsersScore[] usersScores)
-        {
-            _allUsersScores = new List<UsersScore>(usersScores);
-        }
-        public UsersScore[] FindUsersScores(Solver solver)
-        {
-            List<UsersScore> usersScores = new List<UsersScore>();
-            foreach (var userScore in _allUsersScores)
+            List<SolversScore> usersScores = new List<SolversScore>();
+            foreach (var userScore in _data)
             {
-                if (userScore.solver == solver)
+                if (userScore.solver.GetName().Equals(solver.GetName()))
                 {
                     usersScores.Add(userScore);
                 }
             }
             return usersScores.ToArray();
+        }
+        public int FindTestsScore(Solver solver, Test test)
+        {
+            SolversScore[] scores = FindUsersScores(solver);
+            foreach (var score in scores)
+            {
+                if (score.test.Equals(test))
+                {
+                    return score.score;
+                }
+            }
+            return 0;
         }
     }
 }

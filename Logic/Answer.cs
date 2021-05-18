@@ -1,5 +1,8 @@
-﻿namespace TestingSystem
+﻿using System;
+
+namespace TestingSystem
 {
+    [Serializable]
     public struct Answer
     {
         public string text;

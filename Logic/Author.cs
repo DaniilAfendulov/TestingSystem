@@ -1,40 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TestingSystem.Logic
 {
+    [Serializable]
     public class Author: User
     {
-        List<Test> _tests;
-
+        private List<Test> _tests;
+        public Test[] GetTests { get => _tests.ToArray(); }
         public Author(string login, string password) : base(login, password)
         {
             _tests = new List<Test>();
         }
-
-        public bool AddTest(Test test)
+        public bool TryAddTest(Test test, DataBase dataBase)
         {
             if (test != null)
             {
                 _tests.Add(test);
+                dataBase.Add(test);
             }
             return false;
         }
 
-        public bool ModifyTest(int index, Test modifiedTest)
+        public bool TryModifyTest(int index, Test modifiedTest, DataBase dataBase)
         {
             if (index >= 0 && index < _tests.Count
                 && modifiedTest != null)
             {
+                dataBase.ModifyTest(_tests[index], modifiedTest);
                 _tests[index] = modifiedTest;
                 return true;
             }
             return false;
         }
 
-        public bool DeleteTest(int index)
+        public bool TryDeleteTest(int index, DataBase dataBase)
         {
             if (index >= 0 && index < _tests.Count)
             {
+                dataBase.Remove(_tests[index]);
                 _tests.RemoveAt(index);
                 return true;
             }

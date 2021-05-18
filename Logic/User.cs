@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestingSystem.Logic
 {
+    [Serializable]
     public abstract class User
     {
         protected string _login;
@@ -15,6 +12,14 @@ namespace TestingSystem.Logic
         {
             _login = login;
             _password = password;
+        }
+        public string GetName()
+        {
+            return _login;
+        }
+        public bool Equals(User user)
+        {
+            return _login.Equals(user._login) && _password.Equals(user._password);
         }
     }
 }
